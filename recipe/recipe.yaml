@@ -1,0 +1,43 @@
+context:
+  name: lock
+  version: 2018.3.25.2110
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.io/packages/source/${{ name[0] }}/${{ name }}/lock-${{ version }}.tar.gz
+  sha256: cc5ac770930493eed7a8cfd0cf2568a125faf112eb8aa6b6149b3e581523d0c7
+
+build:
+  number: 5
+  skip: win
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - lock = lock:lock
+
+requirements:
+  host:
+    - pip
+    - pypandoc
+    - python
+  run:
+    - python
+
+tests:
+  - python:
+      imports:
+        - lock
+      pip_check: true
+
+about:
+  summary: module for enabling file locks
+  license: GPL-3.0-or-later
+  license_file: LICENSE
+  homepage: https://github.com/wdbm/lock
+
+extra:
+  recipe-maintainers:
+    - hadim
